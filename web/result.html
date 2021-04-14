@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css'>
+<link rel="stylesheet" type="text/css" href="./css/semantic.min.css">
+<script type="text/javascript">
+function copyText(){
+    var textEditor = $("#content_o").text();
+    alert(textEditor)
+    $("#textarea").val(textEditor);
+    $("#editor").modal("show");
+ }
+
+function save(){
+    var url = window.location.href.split('/2')[0] + '/update_res';
+    alert(url)
+    var id= $("#rid").attr('name');
+    var text = $("#textarea").val();
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data:
+            {
+                'res_id': id,
+                'text'  : text
+            },
+        success: function (response) {
+            res = response.message;
+           
+            if (response.code == 0) {
+                $("#content_o").text(text);
+                alert('修改成功')
+            }else{
+                alert('修改失败')
+            }
+        },
+        error: function(responsestr){
+            alert('修改失败')
+        }
+    });
+}
+
+function getType() {
+    let str = ""
+    $("input[name='lan']").each(function() {
+        if($(this).prop("checked") == true) {
+            str = ($(this).val())
+        }
+    });
+    return str;
+}
+
+function downloadm(){
+    $("#downloadModal").modal("show");
+}
+
+function download(){
+    
+    let type = getType();
+    alert(type);
+    //var url = window.location.href.split('/2')[0] + '/download_res';
+    var url ="http://" + window.location.host + '/download_res';
+    var id= $("#rid").attr('name');
+    url += '?type='+type + '&res_id='+  id;
+
+    // $.ajax({
+    //     url: url,
+    //     type: 'POST',
+    //     data:
+    //         {
+    //             'res_id': id,
+    //             'type'  : ''
+    //         },
+    //     success: function (response) {
+    //         res = response.message;
+           
+    //         if (response.code == 0) {
+    //             $("#content_o").text(text);
+    //             alert('下载成功')
+    //         }else{
+    //             alert('修改失败111')
+    //         }
+    //     },
+    //     error: function(responsestr){
+    //         alert(responsestr)
+    //     }
+    // });
+
+     console.log("ajaxDownloadSynchronized");
+     var fileName = Date.now()+".txt";
+     var form = $("<form></form>").attr("action", url).attr("method", "post");
+     form.append($("<input></input>").attr("type", "hidden").attr("name", "res_id").attr("value",id));
+     form.append($("<input></input>").attr("type", "hidden").attr("name", "type").attr("value",type));
+     form.appendTo('body').submit().remove();
+
+ }
+
+</script>
+
+
+
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui {{result}} message">
+            <div class="header">{{result_header}}</div>
+        </div>
+    </div>
+    <div class="ui segment">
+        <div class="ui message" name="{{rec_id}}" id="rid">
+             <button type="button" id="result" onclick="copyText()">编辑</button>
+             <button type="button" id="download" onclick="downloadm()" style="float: right;">下载</button>
+             <p id="content_o"> {{result_content}}</p>
+
+        </div>
+         <div class="ui message">
+            <img src="{{static_url(img_url)}}" width="100%"></img>
+        </div>
+    </div>
+     <div class="ui segment">
+        <div class="ui message">
+            <a href="../2">返回</a>
+        </div>
+    </div>
+
+
+    
+    <div class="ui modal" id="editor">
+        <div class="header title">识别结果</div>
+        <div class="content"  width="100%">
+            <textarea id="textarea" cols="20" rows="5" style="width: 100%"></textarea>
+        </div>
+        <div class="actions">
+            <button class="ui negative button" onclick="save()">保存</button>
+            <button class="ui positive button" onclick="cancle()">放弃</button>
+        </div>
+    </div>
+
+
+    <div class="ui modal" id="downloadModal">
+        <div class="header title">下载识别结果</div>
+        <div class="content"  width="100%">
+
+            <div class="ui segment">
+              <div class="ui form">
+                <div class="inline fields">
+                    <label> 请选择下载类型</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="lan" checked="checked" value="word" id='word'>
+                            <label>word格式</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="lan"  value="pdf" id='pdf'>
+                            <label>pdf格式</label>
+                       </div>
+                  </div>
+                  <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="lan"  value="txt" id='txt'>
+                            <label>text格式</label>
+                       </div>
+                  </div>
+               </div>
+            </div>
+            
+        </div>
+        <div class="actions">
+            <button class="ui negative button" onclick="download()">下载</button>
+            <button class="ui positive button" onclick="cancle()">取消</button>
+        </div>
+    </div>
+
+</div>
+
+{% end %}

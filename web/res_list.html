@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block jscontent %}
+
+{% end %}
+
+{% block content %}
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css'>
+<link rel="stylesheet" type="text/css" href="./css/semantic.min.css">
+
+<div class="ui container">
+    <div class="ui segment">
+       
+            <div class="field">
+                <label>您好,用户 :  {{name}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您已识别  &nbsp;&nbsp;{{ocr_times}} &nbsp;&nbsp;张图片 <a href="/logout"  style="float:right">注销</a></label>
+            </div>
+            {% for res in res_list %}
+            <div class="ui segment">
+               
+                <div class="ui container" id='content'>
+        
+                  
+                   <p><label >识别结果 : {{res['text']}}</label>
+                   <img src="{{ static_url( res['img_path'] ) }}" alt="" width="100%" >
+                   <br>
+                   </p>
+                   <p></p>
+                   <p></p>
+                 
+                </div>
+              
+               <div class="ui container" id='content'>
+                   
+                </div>
+            </div>
+            {% end %}
+          
+    </div>  
+</div>
+
+{% end %}

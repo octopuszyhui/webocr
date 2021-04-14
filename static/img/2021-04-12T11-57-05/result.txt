@@ -1,0 +1,14 @@
+成功
+method getattr(self, self request method. Lowe-
+result =method(*selfpath_args, **self path_k
+if result is not None
+result yield result
+if self. auto finish and not self. finished
+self. finish O
+except Exception as e
+self -handle-request_exception(e)
+except Exception
+app_Log error("Exception in exception hand
+f (self.-prepared_future is not None and
+not self.-prepared_future done O)
+H In case we failed before setting prepar

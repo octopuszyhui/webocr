@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block jscontent %}
+<script src="{{ static_url("js/work.js") }}"></script>
+{% end %}
+
+{% block content %}
+<div class="ui container">
+  <div class="ui segment demo demo-contenteditable" id="pastehere" contenteditable>粘贴在这里</div>
+
+  <div class="ui segment" id="result">
+    <div class="ui header" id="message">说明</div>
+    <li>step 1 截图</li> 
+    <li>step 2 ctrl + v 黏贴在上面的输入框</li> 
+    <li>step 3 自动生成识别结果 </li> 
+
+  </div>
+   <!--  <div class="ui segment">
+        <button id="btn" class="ui button" data-clipboard-text="暂无内容">
+            复制到剪贴板
+        </button>
+    </div> -->
+</div>
+{% end %}
+
+{% block endjscontent %}
+<script>
+    var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+</script>
+{% end %}

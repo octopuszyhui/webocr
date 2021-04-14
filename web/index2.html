@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block jscontent %}
+
+{% end %}
+
+{% block content %}
+<div class="ui container">
+    <div class="ui segment">
+        <form class="ui form" action='./2/upload' enctype="multipart/form-data" method='post'>
+            <div class="field">
+                <label>您好,用户 :  {{name}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您已识别  &nbsp;&nbsp;{{ocr_times}} &nbsp;&nbsp;张图片 <a href="/logout"  style="float:right">注销</a></label>
+                <input type='file' name='file' id='file'/>
+                <div class="ui container" id='content'>
+                  
+                </div>
+            </div>
+
+            <div class="ui segment">
+                <div class="ui container" id='content'>
+                   选中图片 : <img src="" id='img' width=0></img>
+                </div>
+            </div>
+            <button class="ui button" type="submit" onsubmit="checkForm()" >确认提交</button>
+        </form>
+    </div>
+    
+</div>
+
+
+<script>
+var f = document.getElementById('file');
+var img  = document.getElementById('img');
+img.src = ""
+f.addEventListener('change', function() {
+    var t_files = this.files;
+    console.log(t_files);
+    var str = '';
+    for (var i = 0, len = t_files.length; i < len; i++) {
+        console.log(t_files[i]);
+        str += '<li>名称：' + t_files[i].name + '大小' + t_files[i].size / 1024 + 'KB</li>';
+    };
+   
+   // 
+    var file = document.getElementById('file');
+    var realPath = getObjectURL(file.files[0]);
+    //document.getElementById('content').innerHTML = realPath;
+    img.src=realPath;
+    img.style.width="100%";
+    //img.style.height="200px";
+}, false);
+
+function getObjectURL(file) {
+    var url = null
+    if (window.createObjectURL != undefined) { // basic    
+        url = window.createObjectURL(file)
+    } else if (window.URL != undefined) { // mozilla(firefox)    
+        url = window.URL.createObjectURL(file)
+    } else if (window.webkitURL != undefined) { // webkit or chrome    
+        url = window.webkitURL.createObjectURL(file)
+    }
+    return url;
+}
+
+</script>
+{% end %}

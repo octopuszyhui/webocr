@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css'>
+<link rel="stylesheet" type="text/css" href="./css/semantic.min.css">
+
+
+<div class="ui container">
+
+    <div class="column">
+        <form class="ui large form" action="../register" method="post">
+           <div class="ui middle aligned center aligned grid">
+                <div class="ui stacked segment">
+                <div>
+
+                </div>
+                <p>
+                    <div class="ui input">
+                         <p>用户名: <input type="text" name="username" class="ui focus input" placeholder="请输入用户名" /></p>
+                    </div>
+
+
+                <p>
+                    <div class="ui input">
+                        <p>密&nbsp;&nbsp;&nbsp;&nbsp;码: <input id="pass" type="text" name="password" class="ui focus input" placeholder="请输入密码"/></p>
+                   </div>
+                </p>
+                <p>
+                    <div class="ui input">
+                        <p>确&nbsp;&nbsp;&nbsp;&nbsp;认: <input id="passc" type="text" name="password_c" placeholder="请确认密码"class="ui focus input" onkeyup="validate()"/></p>
+                    </div>
+                </p>
+                <p><label id='error' color="red"> </label></p>
+
+
+                <p>
+                    <input type="submit" class="ui red button" id="submit">&nbsp;&nbsp;&nbsp;
+                   <a href="../login"  >登录</a>
+                </p>
+
+           </div>
+
+<div class="column"><i class="user icon"></i>user</div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function validate() {
+    var pw1 = document.getElementById("pass").value;
+    var pw2 = document.getElementById("passc").value;
+    if(pw1 != pw2) {
+        document.getElementById("error").innerHTML="<font color='red'>两次密码不相同</font>";
+        document.getElementById("submit").disabled = true;
+    }else{
+        document.getElementById("error").innerHTML="";
+        document.getElementById("submit").disabled = false;
+    }
+}
+</script> 
+{% end %}
